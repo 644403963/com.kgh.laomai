@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<!-- BUI  -->
+<!-- <link href="http://g.alicdn.com/bui/bui/1.1.21/css/bs3/dpl.css" rel="stylesheet">
+  <link href="http://g.alicdn.com/bui/bui/1.1.21/css/bs3/bui.css" rel="stylesheet"> -->
+	<link rel="stylesheet" type="text/css" href="../index/css/reg.css">
+	<meta charset="UTF-8">
+	<title>注册页面</title>
+</head>
+<body>
+	<div id="mainbody"><!--主页-->
+		<h3 style="padding-left: 160px;padding-top: 20px;color: #383838">注册页面</h3>
+		<div id="fmbody">
+			<h3 style="color:#383838">用户名:</h3>
+			<form action="/companymgr1//regist" method="post">
+				<input placeholder="请输入4~20位的账号" type="text" id="username" name="uname" onblur = "checkformname()"  ><span id="result" class="frbule"></span><br/>
+				<h3 style="color: #383838">密码:</h3>
+				<input placeholder="请输入密码:4~20位" id="pwd" type="password" name="pwd" onblur="checkpwd()" onfocus="checkZh()">
+				<span id="spwd" class="frbule"></span>
+				<h3 style="color: #383838">确认密码:</h3>
+				<input id="pwd2" type="password" name="twopwd" onblur="validate()" onfocus="checkZh()"><span id="tishi"></span><br><br>
+				<input type="radio" name="work" value="0" onfocus="checkZh()">顾客
+				<input type="radio" name="work" value="1" onfocus="checkZh()">咖啡厅管理员<br><br>
+				<input type="submit" value="提交">&nbsp&nbsp&nbsp&nbsp&nbsp
+				<button type="submit" formaction="/companymgr1/login.jsp" method="post">返回</button>
+			</form>
+		</div>
+	</div>
+	<div id="footer"><!--底部-->
+		<h4 style="padding-top: 0px;padding-left: 550px;color: #909090">@网页最终解释权归老麦·咖啡所有</h4>
+	</div>
+</body>
+</html>
+<!-- BUI -->
+<script src="../common/js/jquery-1.8.1.min.js"></script>
+<script src="../common/js/seed-min.js"></script>
+<script src="../common/js/config.js"></script>
+<script src="../common/js/sea.js"></script>
+<script type="text/javascript" src="../index/js/reg.js"></script>

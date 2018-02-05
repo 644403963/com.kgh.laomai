@@ -19,7 +19,6 @@ public class Test2 implements Serializable{
 	 */
 	private static final long serialVersionUID = 5865648250609512427L;
 	@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
 	@ColumnType(column="ID",jdbcType=JdbcType.VARCHAR)
 	@GeneratedValue(strategy = GenerationType.IDENTITY,generator = "UUID")

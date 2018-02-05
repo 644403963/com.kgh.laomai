@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kgh.test.entity.Test;
 import com.kgh.test.entity.Test2;
+import com.kgh.test.entity.TestLongId;
+import com.kgh.test.mapper.LongTestMapper;
 import com.kgh.test.mapper.Test2Mapper;
 import com.kgh.test.mapper.TestMapper;
 
@@ -17,6 +19,8 @@ public class TestController{
 	TestMapper dao;
 	@Autowired
 	Test2Mapper dao2;
+	@Autowired
+	LongTestMapper dao3;
 	@RequestMapping("getTest")
 	public void getTest(){
 		Test t = dao.getTest();
@@ -30,6 +34,14 @@ public class TestController{
 		Test2 t2 = new Test2();
 		dao2.insert(t2);
 		System.out.println(t2.getTestName());
+	}
+	
+	@RequestMapping("insertLongTest")
+	public void insertLongTest(){
+		TestLongId t3 = new TestLongId();
+		t3.setTestName("t3");
+		dao3.insert(t3);
+		System.out.println(t3.getTestName());
 	}
 	//必须加主键 根据主键进行。
 	@RequestMapping("updateTest")

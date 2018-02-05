@@ -22,7 +22,7 @@ public class TestController{
 		Test t = dao.getTest();
 		System.out.println(t.getId()+t.getTestName());
 	}
-	@RequestMapping("inserTest")
+	@RequestMapping("insertTest")
 	public void inserTest(){
 		Test t = new Test();
 		t.setTestName("keguanghua");

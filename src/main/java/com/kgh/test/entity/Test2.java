@@ -12,7 +12,7 @@ import org.apache.ibatis.type.JdbcType;
 
 import tk.mybatis.mapper.annotation.ColumnType;
 
-@Table(name = "KGH_TEST")
+@Table(name ="KGH_TEST")
 public class Test2 implements Serializable{
 	/**
 	 * 自增  uuid 实体 测试
@@ -21,8 +21,8 @@ public class Test2 implements Serializable{
 	@Id
 	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
-	@ColumnType(column="ID",jdbcType=JdbcType.LONGVARCHAR)
-    @GeneratedValue(strategy = GenerationType.IDENTITY,generator = "select uuid()")
+	@ColumnType(column="ID",jdbcType=JdbcType.VARCHAR)
+	@GeneratedValue(strategy = GenerationType.IDENTITY,generator = "UUID")
 	private String id;
 	/**
 	 * 鍒涘缓浜�	 */

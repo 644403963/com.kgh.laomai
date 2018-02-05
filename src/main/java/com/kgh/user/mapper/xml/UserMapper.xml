@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.kgh.user.mapper.UserMapper" >
     <select id="getUser"  resultType="com.kgh.user.entity.User">
-        SELECT USER_NAME userName FROM t_user
+        SELECT USER_REAL_NAME name FROM t_user where id=201107109
     </select>
-
 </mapper>

@@ -22,6 +22,7 @@ public class Test2 implements Serializable{
 	@Column(name = "ID")
 	@ColumnType(column="ID",jdbcType=JdbcType.VARCHAR)
 	@GeneratedValue(strategy = GenerationType.IDENTITY,generator = "UUID")
+//	@GeneratedValue(strategy = GenerationType.IDENTITY,generator = "select uuid() from dual")
 	private String id;
 	/**
 	 * 鍒涘缓浜�	 */

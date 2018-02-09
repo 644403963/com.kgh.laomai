@@ -1,6 +1,9 @@
 new Vue({
 		el : '#app',
 		data : {
+			return{
+				
+			}
 			
 		},
 		methods : {
@@ -11,6 +14,7 @@ new Vue({
 		 handleClose : function(key, keyPath) {
 		        console.log(key, keyPath);
 		      }
+		
 		}
 	})
 	

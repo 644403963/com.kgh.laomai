@@ -3,6 +3,7 @@ new Vue({
 		data : {
 			name : '',
 			password : ''
+			src:''
 		},
 		methods : {
 			check : function(event){

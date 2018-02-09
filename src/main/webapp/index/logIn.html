@@ -9,6 +9,18 @@
 <body>
 <div id="app">
 
+<div id="logImg">
+  <div class="block">
+    <span class="demonstration"></span>
+    <el-carousel>
+      <el-carousel-item v-for="item in 4" :key="item">
+        <img v-bind:src="src">
+      </el-carousel-item>
+    </el-carousel>
+  </div>
+</div>
+
+
 <div class="login-box">
  <el-row>
 	<el-col :span="8">
@@ -44,4 +56,51 @@
   <script src="../common/js/jquery-1.8.1.min.js"></script>
  <!--  页面js  -->
 <script src="../index/js/logIn.js"></script>
+<!--  <script>
+
+var log = new Vue({
+		el : '#app',
+		data : {
+			name : '',
+			password : '',
+			src:'../../index/img/img4.jpg'
+		},
+		methods : {
+	
+			check : function(event){
+				//获取值
+				var name = this.name;
+				var password = this.password;
+				if(name == '' || password == ''){
+					this.$message({
+						message : '账号或密码为空！',
+						type : 'error'
+					})
+					return;
+				}
+				$.ajax({
+					url : 'login',
+					type : 'post',
+					data : {
+						name : name,
+						password : password
+					},
+					success : function(data) {
+						var result = data.result;
+						if(result == 'true' || result == true){
+							alert("登录成功");
+						}else {
+							alert("登录失败");
+						}
+					},
+					error : function(data) {
+						alert(data);
+					},
+					dataType : 'json',
+				})
+			}
+		}
+	});
+	
+	</script> -->
 </html>

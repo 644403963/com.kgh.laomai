@@ -1,14 +1,33 @@
+#logImg{
+	width:687px;
+	hight:386px;
+	background-color:red;
+}
+/* 跑马地灯 图片 */
+/* 	.el-carousel__item:nth-child(6) {
+     background:url("../../index/img/img1.jpg");
+  }
+  .el-carousel__item:nth-child(3) {
+		background:url("../../index/img/img2.jpg");
+  }
+  .el-carousel__item:nth-child(4) {
+        background:url("../../index/img/img3.jpg");
+  }
+  .el-carousel__item:nth-child(5) {
+        background:url("../../index/img/img4.jpg");
+  }  */
+
 .el-row {
     margin-bottom: 20px;
     &:last-child {
       margin-bottom: 0;
     }
   }
-	.login-box {
+	/* .login-box {
 		    margin-left: 500px;
 		        padding-top: 200px;
 	}
-
+ */
 #reg{
 	    margin-left: 45px;
 }
@@ -17,7 +36,7 @@
 	    
 }
 html,body,#app {height: 100%;}
-#app{
+/* #app{
 	width:100%;
 	background:url("../../index/img/logIn-background.jpg");
-}
+} */

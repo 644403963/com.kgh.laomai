@@ -4,21 +4,12 @@
   <meta charset="UTF-8">
   <!-- 引入样式 -->
   <link rel="stylesheet" href="https://unpkg.com/element-ui@1.4.12/lib/theme-default/index.css">
-  <style>
-.el-row {
-    margin-bottom: 20px;
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-	.login-box {
-		margin-top:20%;
-		margin-left:40%;
-	}
-</style>
+  <link rel="stylesheet" href="./css/logIn.css">
 </head>
 <body>
-<div class="login-box" id="app" >
+<div id="app">
+
+<div class="login-box">
  <el-row>
 	<el-col :span="8">
 		<el-input id="name"  v-model="name" placeholder="请输入帐号">
@@ -34,11 +25,16 @@
 	</el-col>
  </el-row>
  <el-row>
-	<el-col :span="8">
+	<el-col :span="3">
 		<el-button id="login" v-on:click="check" style="width:100%" type="primary">登录</el-button>
+	</el-col>
+	<el-col :span="3">
+		<el-button id="reg" v-on:click="" style="width:100%;">注册</el-button>
 	</el-col>
  </el-row>
 </div> 
+
+</div>
 </body>
   <!-- 先引入 Vue -->
   <script src="../common/js/vue.js"></script>

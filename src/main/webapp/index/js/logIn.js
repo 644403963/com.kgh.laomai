@@ -2,7 +2,7 @@ new Vue({
 		el : '#app',
 		data : {
 			name : '',
-			password : ''
+			password : '',
 			src:''
 		},
 		methods : {

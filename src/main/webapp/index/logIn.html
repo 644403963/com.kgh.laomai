@@ -1,106 +1,116 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <!-- 引入样式 -->
-  <link rel="stylesheet" href="https://unpkg.com/element-ui@1.4.12/lib/theme-default/index.css">
-  <link rel="stylesheet" href="./css/logIn.css">
-</head>
-<body>
-<div id="app">
-
-<div id="logImg">
-  <div class="block">
-    <span class="demonstration"></span>
-    <el-carousel>
-      <el-carousel-item v-for="item in 4" :key="item">
-        <img v-bind:src="src">
-      </el-carousel-item>
-    </el-carousel>
-  </div>
-</div>
-
-
-<div class="login-box">
- <el-row>
-	<el-col :span="8">
-		<el-input id="name"  v-model="name" placeholder="请输入帐号">
-			<template slot="prepend">帐号</template>
-		</el-input> 
-	</el-col>
- </el-row>
- <el-row>
-	<el-col :span="8">
-		<el-input id="password" v-model="password" type="password" placeholder="请输入密码">
-			<template slot="prepend">密码</template>
-		</el-input>
-	</el-col>
- </el-row>
- <el-row>
-	<el-col :span="3">
-		<el-button id="login" v-on:click="check" style="width:100%" type="primary">登录</el-button>
-	</el-col>
-	<el-col :span="3">
-		<el-button id="reg" v-on:click="" style="width:100%;">注册</el-button>
-	</el-col>
- </el-row>
-</div> 
-
-</div>
-</body>
+  
+  <head>
+    <meta charset="UTF-8">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui@1.4.12/lib/theme-default/index.css">
+    <link rel="stylesheet" href="./css/logIn.css"></head>
+  
+  <body>
+    <div id="app">
+    
+    <el-container>
+  <el-header> <img src="../../index/img/logo.png"></el-header>
+  <el-main>
+  <el-row>
+        <el-col :span="11">
+          <el-card :body-style="{ padding: '0px' }">
+            <div class="block">
+              <span class="demonstration"></span>
+              <el-carousel>
+                <el-carousel-item v-for="item in 4" :key="item">
+                  <img src="" class="setImg"></el-carousel-item>
+              </el-carousel>
+            </div>
+          </el-card>
+        </el-col>
+         <el-col :span="6">
+        <el-card class="box-card">
+        <div slot="header" class="clearfix">
+		    <span>登录</span>
+		</div>
+          <el-row>
+            <el-input id="name" v-model="name" placeholder="请输入帐号">
+              <template slot="prepend">帐号</template></el-input>
+          </el-row>
+          <el-row>
+            <el-input id="password" v-model="password" type="password" placeholder="请输入密码">
+              <template slot="prepend">密码</template></el-input>
+          </el-row>
+          <el-row>
+          <a href="#"><span id="forgetPassWord">忘记密码</span></a>
+          </el-row>
+          <el-row>
+            <el-col :span="3">
+              <el-button id="login" v-on:click="check" type="primary">登录</el-button></el-col>
+            <el-col :span="3">
+              <el-button id="reg" v-on:click="">注册</el-button></el-col>
+          </el-row>
+        </el-card>
+           </el-col>
+      </el-row>
+  
+  
+  
+  </el-main>
+  <el-footer><p id="info">营许可证：xx-xxxx 网站备案： xxxx-xxx    Copyright © xxx-2018 Oray Crete By Kgh </p></el-footer>
+</el-container>
+    
+      
+    </div>
+  </body>
   <!-- 先引入 Vue -->
   <script src="../common/js/vue.js"></script>
   <!-- 引入组件库 -->
   <script src="../common/js/index.js"></script>
   <!-- 引入组件库 -->
   <script src="../common/js/jquery-1.8.1.min.js"></script>
- <!--  页面js  -->
-<script src="../index/js/logIn.js"></script>
-<!--  <script>
+  <!-- 页面js -->
+  <script src="../index/js/logIn.js"></script>
+  <!-- <script>
+  var log = new Vue({
+  el : '#app',
+  data : {
+  name : '',
+  password : '',
+  imgId:''
+  },
+  methods : {
+  check : function(event){
+  //获取值
+  var name = this.name;
+  var password = this.password;
+  if(name == '' || password == ''){
+  this.$message({
+  message : '账号或密码为空！',
+  type : 'error'
+  })
+  return;
+  }
+  $.ajax({
+  url : 'login',
+  type : 'post',
+  data : {
+  name : name,
+  password : password
+  },
+  success : function(data) {
+  var result = data.result;
+  if(result == 'true' || result == true){
+  alert("登录成功");
+  }else {
+  alert("登录失败");
+  }
+  },
+  error : function(data) {
+  alert(data);
+  },
+  dataType : 'json',
+  })
+  }
+  }
+  });
+  </script>  -->
 
-var log = new Vue({
-		el : '#app',
-		data : {
-			name : '',
-			password : '',
-			src:'../../index/img/img4.jpg'
-		},
-		methods : {
-	
-			check : function(event){
-				//获取值
-				var name = this.name;
-				var password = this.password;
-				if(name == '' || password == ''){
-					this.$message({
-						message : '账号或密码为空！',
-						type : 'error'
-					})
-					return;
-				}
-				$.ajax({
-					url : 'login',
-					type : 'post',
-					data : {
-						name : name,
-						password : password
-					},
-					success : function(data) {
-						var result = data.result;
-						if(result == 'true' || result == true){
-							alert("登录成功");
-						}else {
-							alert("登录失败");
-						}
-					},
-					error : function(data) {
-						alert(data);
-					},
-					dataType : 'json',
-				})
-			}
-		}
-	});
-	
-	</script> -->
 </html>

@@ -1,21 +1,27 @@
-#logImg{
-	width:687px;
-	hight:386px;
-	background-color:red;
+#forgetPassWord{
+	font-size: small;
+	float:right;
+	margin-right: 28px;
+	color: #2685e3;
 }
-/* 跑马地灯 图片 */
-/* 	.el-carousel__item:nth-child(6) {
-     background:url("../../index/img/img1.jpg");
-  }
-  .el-carousel__item:nth-child(3) {
-		background:url("../../index/img/img2.jpg");
-  }
-  .el-carousel__item:nth-child(4) {
-        background:url("../../index/img/img3.jpg");
-  }
-  .el-carousel__item:nth-child(5) {
-        background:url("../../index/img/img4.jpg");
-  }  */
+.el-card__header {
+    padding: 16px 20px;
+    border-bottom: 1px solid #d1dbe5;
+    box-sizing: border-box;
+}
+#info{
+	font-size: 12px;
+    line-height: 18px;
+    margin-top: 5px;
+    color: #999;
+}
+.setImg{
+	 width: 100%;
+    display: block;
+}
+#login-box{
+	float:left;
+}
 
 .el-row {
     margin-bottom: 20px;
@@ -29,14 +35,10 @@
 	}
  */
 #reg{
-	    margin-left: 45px;
+	   margin-left: 127px;
 }
 #login{
-	    margin-left: 23px;
+	      margin-left: 81px;
 	    
 }
 html,body,#app {height: 100%;}
-/* #app{
-	width:100%;
-	background:url("../../index/img/logIn-background.jpg");
-} */

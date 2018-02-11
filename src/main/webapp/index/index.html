@@ -55,13 +55,14 @@
       </el-menu-item>
     </el-menu>
     </el-aside>
-    <el-main id="main"><el-tabs v-model="editableTabsValue2" type="card" closable @tab-remove="removeTab">
+    <el-main id="main"><el-tabs v-model="editableTabsValue2" type="border-card" closable @tab-remove="removeTab">
   <el-tab-pane
     v-for="(item, index) in editableTabs2"
     :key="item.name"
     :label="item.title"
     :name="item.name"
   >
+  <iframe v-bind:src="src"></iframe>
     {{item.content}}
   </el-tab-pane>
 </el-tabs>
@@ -79,16 +80,15 @@
 new Vue({
 		el : '#app',
 		data : {
-			
+			src:'',
 			 editableTabsValue2: '2',
 		        editableTabs2: [{
 		          title: 'Tab 1',
 		          name: '1',
-		          content: 'Tab 1 content'
+		          content:''
 		        }, {
 		          title: 'Tab 2',
-		          name: '2',
-		          content: 'Tab 2 content'
+		          name: '2'
 		        }],
 		        tabIndex: 2
 		      },

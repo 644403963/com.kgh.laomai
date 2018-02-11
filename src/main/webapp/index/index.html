@@ -4,19 +4,24 @@
   <meta charset="UTF-8">
   <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui@1.4.12/lib/theme-default/index.css">
+ 	 <!-- 先引入 Vue -->
+  <script src="../common/js/vue.js"></script>
+   <!-- 引入组件库 -->
+  <script src="../common/js/index.js"></script>
   <style>
 
 </style>
 </head>
 <body>
 <div class="login-box" id="app" >
- <el-col :span="12">
-    <h5>自定义颜色</h5>
-    <el-menu
+<el-container>
+  <el-header>Header</el-header>
+  <el-container>
+    <el-aside width="15%"><el-menu
       default-active="2"
       class="el-menu-vertical-demo"
-      @open="handleOpen"
-      @close="handleClose"
+      @open=""
+      @close=""
       background-color="#545c64"
       text-color="#fff"
       active-text-color="#ffd04b">
@@ -47,14 +52,12 @@
         <span slot="title">导航三</span>
       </el-menu-item>
     </el-menu>
-  </el-col>
+    </el-aside>
+    <el-main width="80%">Main</el-main>
+  </el-container>
+</el-container>
 </div> 
 </body>
-  <!-- 先引入 Vue -->
-  <script src="../common/js/vue.js"></script>
-  
-  <!-- 引入组件库 -->
-  <script src="../common/js/index.js"></script>
   <!-- 引入组件库 -->
   <script src="../common/js/jquery-1.8.1.min.js"></script>
  <!--  页面js  -->

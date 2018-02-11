@@ -1,3 +1,10 @@
+
+#main{
+	float:left;
+	width:85%;
+}
+
+
 .el-header {
     background-color: #B3C0D1;
     color: #333;
@@ -6,6 +13,7 @@
   
   .el-aside {
     color: #333;
+    float: left;
   }
   
   html,body,#app {height: 100%;}

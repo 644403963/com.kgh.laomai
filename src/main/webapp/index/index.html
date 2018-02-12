@@ -55,15 +55,14 @@
       </el-menu-item>
     </el-menu>
     </el-aside>
-    <el-main id="main"><el-tabs v-model="editableTabsValue2" type="border-card" closable @tab-remove="removeTab">
+    <el-main id="main"><el-tabs v-model="editableTabsValue" type="card" closable @tab-remove="removeTab" @tab-click="clickTab">
   <el-tab-pane
-    v-for="(item, index) in editableTabs2"
+    v-for="(item, index) in editableTabs"
     :key="item.name"
     :label="item.title"
     :name="item.name"
   >
   <iframe v-bind:src="src"></iframe>
-    {{item.content}}
   </el-tab-pane>
 </el-tabs>
 </el-main>
@@ -81,16 +80,16 @@ new Vue({
 		el : '#app',
 		data : {
 			src:'',
-			 editableTabsValue2: '2',
-		        editableTabs2: [{
-		          title: 'Tab 1',
-		          name: '1',
-		          content:''
-		        }, {
-		          title: 'Tab 2',
-		          name: '2'
-		        }],
-		        tabIndex: 2
+			urlName:'',
+			titleName:'',
+			 contentName:'',
+			 editableTabsValue:'',
+		        editableTabs: [{
+		            title: 'test',
+		            name: 'http://element-cn.eleme.io/#/zh-CN/component/tabs',
+		            content: ''
+		          }],
+		        tabIndex: 0
 		      },
 			
 		methods : {
@@ -102,14 +101,20 @@ new Vue({
 			      },
 			      addTab:function(targetName) {
 			          let newTabName = ++this.tabIndex + '';
-			          this.editableTabs2.push({
-			            title: 'New Tab',
-			            name: newTabName,
-			            content: 'New Tab content'
+			          this.editableTabs.push({
+			            title: titleName,
+			            name: urlName,
+			            content: contentName
 			          });
 			          this.editableTabsValue2 = newTabName;
 			        },
-			        
+			        clickTab:function(targetName) {
+			        	//获取 点击 tab 后 获得被点击的tab对象  获取其中name 用于存 url
+			        	var url = targetName.name;
+			        	//给iframe 中 赋值。
+			        	src=url;
+			        	debugger;
+				        },
 			        removeTab:function(targetName) {
 			            let tabs = this.editableTabs2;
 			            let activeName = this.editableTabsValue2;

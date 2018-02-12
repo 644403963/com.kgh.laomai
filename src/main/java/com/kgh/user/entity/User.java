@@ -4,61 +4,115 @@ package com.kgh.user.entity;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-@Table(name ="TF_USER")
+import org.apache.ibatis.type.JdbcType;
+
+import tk.mybatis.mapper.annotation.ColumnType;
+/**
+ * 用户信息表
+ * @author kgh
+ *
+ */
+@Table(name ="K_USER")
 public class User implements Serializable{
 	/**
-	 * ss
+	 * 
 	 */
 	private static final long serialVersionUID = 2323831142296248065L;
+	/**
+	 * 主键 uuid自动生成
+	 */
 	@Id
-	@Column(name="TF_ID")
-	private Long tfId;
-	@Column(name="TF_USER_NAME")
-	private String tfUserName;
-	@Column(name="CF_PASSWORD")
-	private String cfPassword;
-	@Column(name="CF_TELEPHONE")
-	private String cfTelephone;
-	@Column(name="CF_ROLE")
-	private String cfRole;
-	@Transient
-	private String name;
+	@Column(name = "ID")
+	@ColumnType(column="ID",jdbcType=JdbcType.VARCHAR)
+	@GeneratedValue(strategy = GenerationType.IDENTITY,generator = "UUID")
+	private String id;
+	/**
+	 * 用户名
+	 */
+	@Column(name = "K_USER_NAME")
+	@ColumnType(column="K_USER_NAME",jdbcType=JdbcType.VARCHAR)
+	private String kUserName;
+	/**
+	 * 密码
+	 */
+	@Column(name = "K_PASSWORD")
+	@ColumnType(column="K_PASSWORD",jdbcType=JdbcType.VARCHAR)
+	private String kPassword;
 	
+	/**
+	 * 性别
+	 */
+	@Column(name = "K_SEX")
+	@ColumnType(column="K_SEX",jdbcType=JdbcType.NUMERIC)
+	private String kSex;
+	/**
+	 * 电话号码
+	 */
 	
-	public Long getTfId() {
-		return tfId;
+	@Column(name = "K_PHONE_NUMBER")
+	@ColumnType(column="K_PHONE_NUMBER",jdbcType=JdbcType.VARCHAR)
+	private String kPhoneNumber;
+	/**
+	 * 昵称
+	 */
+	@Column(name = "K_NICK_NAME")
+	@ColumnType(column="K_NICK_NAME",jdbcType=JdbcType.VARCHAR)
+	private String kNickName;
+
+	public String getId() {
+		return id;
 	}
-	public void setTfId(Long tfId) {
-		this.tfId = tfId;
+
+	public void setId(String id) {
+		this.id = id;
 	}
-	public String getTfUserName() {
-		return tfUserName;
+
+	public String getkUserName() {
+		return kUserName;
 	}
-	public void setTfUserName(String tfUserName) {
-		this.tfUserName = tfUserName;
+
+	public void setkUserName(String kUserName) {
+		this.kUserName = kUserName;
 	}
-	public String getCfPassword() {
-		return cfPassword;
+
+	public String getkPassword() {
+		return kPassword;
 	}
-	public void setCfPassword(String cfPassword) {
-		this.cfPassword = cfPassword;
+
+	public void setkPassword(String kPassword) {
+		this.kPassword = kPassword;
 	}
-	public String getCfTelephone() {
-		return cfTelephone;
+
+	public String getkSex() {
+		return kSex;
 	}
-	public void setCfTelephone(String cfTelephone) {
-		this.cfTelephone = cfTelephone;
+
+	public void setkSex(String kSex) {
+		this.kSex = kSex;
 	}
-	public String getCfRole() {
-		return cfRole;
+
+	public String getkPhoneNumber() {
+		return kPhoneNumber;
 	}
-	public void setCfRole(String cfRole) {
-		this.cfRole = cfRole;
+
+	public void setkPhoneNumber(String kPhoneNumber) {
+		this.kPhoneNumber = kPhoneNumber;
 	}
+
+	public String getkNickName() {
+		return kNickName;
+	}
+
+	public void setkNickName(String kNickName) {
+		this.kNickName = kNickName;
+	}
+	
 	
 	
 }

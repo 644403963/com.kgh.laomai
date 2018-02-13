@@ -1,0 +1,119 @@
+
+		// 错误信息
+		List<String> wrongMsg = new ArrayList<>();
+		// 正确信息
+		List<QualityEvaluateVo> rightMsg = new ArrayList<>();
+		// 返回结果
+		Map<String, Object> map = new HashMap<>();
+		// 校验信息
+		// 没有数据
+		if (excelData.size() == 0) {
+			wrongMsg.add("数据为空，请重新输入后再试!");
+		}
+		if(tepTebId==null||tepTebId==""){
+			wrongMsg.add("导入失败!请先保存基本信息！");
+			map.put("wrong", wrongMsg);
+			map.put("right", rightMsg);
+			return map;
+		}
+		for (Entry<Integer, Collection<?>> entry : excelData.entrySet()) {
+			// 取到当前行号
+			Integer row = entry.getKey();
+			// 当前行数据
+			List<String> rowValue = (List<String>) entry.getValue();
+			row++;
+			if (null == rowValue || rowValue.isEmpty() || rowValue.size() != 5) {
+				wrongMsg.add("第" + row + "行,数据异常,正确数据应仅包含晋级/降级等5个字段!");
+				continue;
+			}
+			// 存放需要校验的数据
+			QualityEvaluateVo qualityEvaluateVo = new QualityEvaluateVo();
+			boolean eventTime = true;
+			for (int i = 0; i < rowValue.size(); i++) {
+				switch (i) {
+				case 0:
+					// 晋级/降级校验
+					if (UT.Str.isBlank(rowValue.get(0))) {
+						wrongMsg.add("第" + row + "行" + "第1列:" + "晋级/降级不能为空!");
+						eventTime = false;
+					}else if(("0".equals(rowValue.get(0))||"1".equals(rowValue.get(0)))!=true){
+						wrongMsg.add("第" + row + "行" + "第1列:" + "晋级/降级格式错误（请参考字典）!");
+						eventTime = false;
+					}
+					else {
+						qualityEvaluateVo.setTepIslevelup(rowValue.get(0));
+					}
+					break;
+				case 1:
+					// 日期校验
+					if (UT.Str.isBlank(rowValue.get(1))) {
+						wrongMsg.add("第" + row + "行" + "第2列:" + "日期不能为空!");
+						eventTime = false;
+					} else {
+				 // 指定日期格式为四位年/两位月份/两位日期，注意yyyy/MM/dd区分大小写；
+				       SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				       try {
+				// 设置lenient为false. 否则SimpleDateFormat会比较宽松地验证日期，比如2007/02/29会被接受，并转换成2007/03/01
+						          format.setLenient(false);
+						          Date date= format.parse(rowValue.get(1));
+						          qualityEvaluateVo.setTepDate(date);
+						       } catch (ParseException e) {
+						          // e.printStackTrace();
+					 // 如果throw java.text.ParseException或者NullPointerException，就说明格式不对
+						    	   wrongMsg.add("第" + row + "行" + "第2列:" + "日期格式错误!");
+								eventTime = false;
+					        }
+					}
+					break;
+					
+				case 2:
+					// 原等级
+					if (UT.Str.isBlank(rowValue.get(2))) {
+						wrongMsg.add("第" + row + "行" + "第3列:" + "原等级不能为空!");
+						eventTime = false;
+					}
+					else {
+						qualityEvaluateVo.setTepOldlevel(rowValue.get(2));
+					}
+					break;
+				case 3:
+					// 现等级
+					if (UT.Str.isBlank(rowValue.get(3))) {
+						wrongMsg.add("第" + row + "行" + "第4列:" + "现等级为空!");
+						eventTime = false;
+					}
+					else {
+						qualityEvaluateVo.setTepNowlevel(rowValue.get(3));
+					}
+					break;
+				case 4:
+					//  晋级/降级原因
+					if (UT.Str.isBlank(rowValue.get(4))) {
+						wrongMsg.add("第" + row + "行" + "第5列:" + " 晋级/降级原因不能为空!");
+						eventTime = false;
+					}
+					else {
+						qualityEvaluateVo.setTepReason(rowValue.get(4));
+						// 创建人
+						SecurityUser loginUser = PrincipalUtil.getLoginUser();
+						qualityEvaluateVo.setTepCreateby(loginUser.getId()
+								.toString());
+						// 创建时间
+						qualityEvaluateVo.setTepCreatedate(new Date());// new
+						// tepTebId  添加
+						qualityEvaluateVo.setTepTebId(tepTebId);
+						// 校验数据 是否符合要求
+						if (eventTime) {
+								rightMsg.add(qualityEvaluateVo);
+						}
+					}
+					break;
+				default:
+					break;
+				}
+			}
+		}
+		map.put("wrong", wrongMsg);
+		map.put("right", rightMsg);
+		return map;
+	

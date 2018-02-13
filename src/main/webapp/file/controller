@@ -1,0 +1,38 @@
+
+		// 获取请求对象中的文件信息
+		MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
+		Map<String, MultipartFile> fileMap = mRequest.getFileMap();
+		MultipartFile myfile = null;
+		for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
+			myfile = entity.getValue();
+			break;
+		}
+		// 获取上传的Excel 表格名字
+		String name = myfile.getOriginalFilename();
+		Map<Integer, Collection<?>> excelData = ImportExcelUtil
+				.excelImport(request);
+		if (null == excelData) {
+			return Res.error("导入文件格式不正确或导入内容为空!");
+		}
+		try {
+				// 导入文件校验
+						Map<String, Object> result = assessmentService
+								.importQulityEvaluateList(excelData,id);
+						List<String> wrongMsg = (List<String>) result
+								.get("wrong");
+						List<QualityEvaluateVo> importMsg = (List<QualityEvaluateVo>) result
+								.get("right");
+						if (wrongMsg.isEmpty()) {
+							// 文件校验通过,执行导入
+							assessmentService
+									.insertList(importMsg);
+						} else {
+							// 返回错误信息
+							return Res.ok(wrongMsg);
+						}
+			return Res.ok();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			return Res.error("系统异常!");
+		}
+	

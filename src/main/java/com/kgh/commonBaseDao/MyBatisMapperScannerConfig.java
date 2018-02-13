@@ -13,7 +13,7 @@ public class MyBatisMapperScannerConfig {
         mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
         mapperScannerConfigurer.setBasePackage("com.kgh.**.mapper");//ɨ���·���µ�dao
         Properties properties = new Properties();
-        properties.setProperty("mappers", "com.kgh.commonBaseDao.BaseDao");//ͨ��dao
+        properties.setProperty("mappers", "com.kgh.commonBaseDao.BaseMapper");//ͨ��dao
         properties.setProperty("notEmpty", "false");
         properties.setProperty("IDENTITY", "oracle");
       //主键UUID回写方法执行顺序,默认AFTER,可选值为(BEFORE|AFTER)

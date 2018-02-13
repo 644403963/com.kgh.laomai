@@ -7,7 +7,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kgh.user.entity.User;
 import com.kgh.user.service.UserService;
-
+/**
+ *  用户  操作controller 
+ * @author create by kgh
+ *
+ */
 @RestController
 @RequestMapping("user")
 public class UserController{
@@ -15,7 +19,18 @@ public class UserController{
 	UserService userService;
 	@RequestMapping("getUser")
 	public void getUser(){
-		User user = userService.getUser();
-		System.out.println(user.getTfUserName()+"1");
+		
 	}
+	/**
+	 * 
+	 * @return
+	 */
+	
+	@RequestMapping("userLogIn")
+	public boolean userLogIn(User user){
+		boolean isLog = userService.userLogIn(user);
+		//true 登录成功   false 失败 返回原因。
+		return isLog;
+	}
+	
 }

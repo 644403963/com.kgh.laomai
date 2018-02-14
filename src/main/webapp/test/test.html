@@ -3,26 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <!-- 引入样式 -->
-  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui@1.4.12/lib/theme-default/index.css">
+
+  <style>
+
+</style>
 </head>
 <body>
-  <div id="app">
-    <el-button @click="visible = true">按钮</el-button>
-    <el-dialog :visible.sync="visible" title="Hello world">
-      <p>欢迎使用 Element</p>
-    </el-dialog>
-  </div>
+<div id="app" >
+
+<el-upload
+   class="upload-demo"
+  ref="upload"
+  :action="url"
+  :on-preview="handlePreview"
+  :on-remove="handleRemove"
+  :file-list="fileList"
+  :auto-upload="false"
+  list-type="picture"
+  multiple>
+  <<el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+  <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+</el-upload>
+
+</div> 
 </body>
+
   <!-- 先引入 Vue -->
-  <script src="../common/js/vue.js"></script>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+   <script src="../common/js/jquery-1.8.1.min.js"></script>
   <!-- 引入组件库 -->
-  <script src="../common/js/index.js"></script>
-  <script>
-    new Vue({
-      el: '#app',
-      data: function() {
-        return { visible: false }
-      }
-    })
-  </script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+ <!--  页面js  -->
+
+<script>
+
+new Vue({
+	
+		el : '#app',
+		data : {
+			url:"/upload/uploadFile",
+			fileList: []
+		      },
+		methods : {
+			 handleRemove(file, fileList) {
+			        console.log(file, fileList);
+			      },
+			      handlePreview(file) {
+			        console.log(file);
+			      },
+			      submitUpload() {
+			          this.$refs.upload.submit();
+			        }
+		}
+	})
+</script>
+
 </html>

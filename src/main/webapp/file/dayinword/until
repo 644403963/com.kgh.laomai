@@ -1,0 +1,80 @@
+package com.sqmw.util;
+
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.util.Map;
+import java.util.UUID;
+
+public class DocumentHandlerUtil {
+	private Configuration configuration = null;
+	private static final Logger log = LoggerFactory.getLogger(DocumentHandlerUtil.class);
+	public DocumentHandlerUtil() {
+		configuration = new Configuration();
+		configuration.setDefaultEncoding("utf-8");
+	}
+
+	public void createDoc(HttpServletRequest request,HttpServletResponse response,
+			Map<String,Object> dataMap,String templateName,String fileName) throws IOException {
+		//设置模本装置方法和路径,FreeMarker支持多种模板装载方法。可以重servlet，classpath，数据库装载，
+		//这里我们的模板是放在com.havenliu.document.template包下面
+		configuration.setClassForTemplateLoading(this.getClass(), "/com/template");
+		Template t=null;
+		try {
+			//test.ftl为要装载的模板
+			t = configuration.getTemplate(templateName);
+		} catch (IOException e) {
+			log.info("错误信息：{}",e.getMessage());
+		}
+		//输出文档路径及名称
+		String path = request.getRealPath("/fileTemp");
+		File folder = new File(path);
+		if (!folder.exists()) {
+			folder.mkdirs();
+		}
+		String uuid = UUID.randomUUID().toString();
+		File file = new File(path+"/"+fileName + uuid +".doc");
+		Writer out = null;
+		try {
+			FileOutputStream fos = new FileOutputStream(file);
+			OutputStreamWriter oWriter = new OutputStreamWriter(fos,"UTF-8");
+			out = new BufferedWriter(oWriter);
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		 
+        try {
+        	//导出Word文档
+			t.process(dataMap, out);
+			out.flush();
+			out.close();
+		} catch (TemplateException e) {
+			log.info("错误信息：",e.getMessage());
+		} catch (IOException e) {
+			log.info("错误信息：",e.getMessage());
+		}
+		
+		OutputStream output;
+		InputStream input;
+		input = new FileInputStream(file);
+		
+		response.setContentType("Content-Disposition;charset=UTF-8");
+		response.setHeader("Content-Disposition","attachment;"+"filename="+new String((fileName+".doc").getBytes(),"UTF-8"));
+		output = response.getOutputStream();
+		int byteRead = 0;
+		byte[] buffer = new byte[512];
+		while((byteRead = input.read(buffer)) != -1){
+			output.write(buffer,0,byteRead);
+		}
+		input.close();
+		output.close();
+		//删除文件
+		file.delete();
+	}
+}

@@ -1,0 +1,323 @@
+package com.czy.sqm.base.util;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.czy.sqm.base.exception.NestedRuntimeException;
+import com.czy.sqm.base.util.jretty.DateFormatUtils;
+import com.czy.sqm.base.util.jretty.IOUtils;
+
+/**
+ * 封装好的 导出Excel 工具，参见具体 public方法
+ * 
+ * @author zollty
+ * @since 2014-6-13
+ */
+public class ExcelExportUtils {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ExcelExportUtils.class);
+    
+    /**
+     * 数据库数据-单个数据
+     */
+    public static final String RULE_B = "b";
+    
+    /**
+     * 数据库数据-多列数据
+     */
+    public static final String RULE_C = "c";
+    
+    /**
+     * date, 系统支持的数据类型，获取当前服务器的时间
+     */
+    public static final String RULE_DATE = "date";
+    
+    /**
+     * 根据提供的Excel模板，生成excel数据文件
+     * @param in 提供的Excel模板的 输入流
+     * @param map 数据，格式为：{列标记, List{列数据} }
+     * @param out 输出流
+     */
+    public static void buildExcel(InputStream in, Map<String, List<Object>> map, OutputStream out) {
+        Map<String, Map<String, List<Object>>> mapList = new HashMap<>();
+        mapList.put("Sheet1", map);
+        buildMultiExcel(in, mapList, out);
+    }
+
+    /**
+     * 根据提供的Excel模板，生成excel数据文件（支持多sheet）
+     * @param in 提供的Excel模板的 输入流
+     * @param map 数据，格式为：{sheet名称，{列标记, List{列数据} } }
+     * @param out 输出流
+     */
+    public static void buildMultiExcel(InputStream in, 
+            Map<String, Map<String, List<Object>>> mapList, OutputStream out) {
+        HSSFWorkbook workbook;
+        
+        BufferedInputStream bin = null;
+        POIFSFileSystem fs = null;
+        try {
+            bin = new BufferedInputStream(in);
+            fs = new POIFSFileSystem(bin);
+            workbook = new HSSFWorkbook(fs);
+        } catch (IOException e) {
+            LOG.debug("open poi template file failre, error msg:" + e.getMessage());
+            throw new NestedRuntimeException(e);
+        } finally {
+            IOUtils.closeIO(bin);
+        }
+        
+        HSSFRow row = null;
+        HSSFCell cell = null;
+        for (Map.Entry<String, Map<String, List<Object>>> en : mapList.entrySet()) {
+            HSSFSheet sheet = mapList.size() != 1 ? workbook.getSheet(en.getKey()) : workbook.getSheetAt(0);
+            Map<String, List<Object>> map = en.getValue();
+            //删除数据为空的情况下 去掉模板的那一行 start
+            if(map.size()==0){
+            	for (short i = 0; i <= sheet.getLastRowNum(); i++) {
+                    row = sheet.getRow(i);
+                    boolean removeRow=false;
+                    if (row != null) {
+                        for (int j = 0; j < row.getLastCellNum(); j++) {
+                            cell = row.getCell(j);
+                            if (cell != null) {
+                                String cellValues = getCellValues(cell);
+                                List<PoiRules> rulesList = paraseCellRules(cellValues);
+                                if(rulesList.size()>0){
+                                	removeRow=true;
+                                	break;
+                                }
+                            }
+                        }
+                      //删掉 这一行
+                        if(removeRow){
+                        	sheet.removeRow(row);
+                        }
+                    }
+                }
+            	continue;
+            }
+         //删除数据为空的情况下 去掉模板的那一行 end
+            int lastRow = sheet.getLastRowNum();
+            for (short i = 0; i <= lastRow; i++) {
+                row = sheet.getRow(i);
+                if (row != null) {
+                	LOG.debug("装载列数" + row.getLastCellNum());
+                    for (int j = 0; j < row.getLastCellNum(); j++) {
+                        cell = row.getCell(j);
+                        if (cell != null) {
+                            parseCell(map, sheet, row, cell);
+                        }
+                    }
+                }
+            }
+        }
+
+        try {
+            workbook.write(out);
+        } catch (IOException e) {
+            throw new NestedRuntimeException(e);
+        } finally {
+            UT.IO.closeIO(out);
+        }
+
+    }
+
+    /**
+     * 解析单元格
+     */
+    private static void parseCell(Map<String, List<Object>> map, 
+            HSSFSheet sheet, HSSFRow row, HSSFCell cell) {
+        String cellValues = getCellValues(cell);
+        List<PoiRules> rulesList = paraseCellRules(cellValues);
+        // 暂只支持单元格单规则解析
+        if (rulesList.size() != 1) {
+            return;
+        }
+        int cellNum = cell.getColumnIndex();
+        PoiRules poiRule = rulesList.get(0);
+        // 根据rule判断规则
+        if (RULE_C.equals(poiRule.getType())) {
+            LOG.debug("装载" + poiRule.getType() + ":" + poiRule.getValue());
+            List<Object> keyValue = map.get(poiRule.getValue());
+            if (keyValue != null && keyValue.size() > 0) {
+                for (int j = 0; j < keyValue.size(); j++) {
+                    HSSFRow tmpRow = sheet.getRow(row.getRowNum() + j);
+                    if (tmpRow == null) {
+                        tmpRow = sheet.createRow(row.getRowNum() + j);
+                    }
+                    HSSFCell tmpCell = makeNewCell(tmpRow, cellNum);
+                    writeCell(tmpCell, keyValue.get(j));
+                }
+            }
+            LOG.debug("装载结束" + poiRule.getType() + ":" + poiRule.getValue());
+        }
+        else if (RULE_B.equals(poiRule.getType())) {
+            LOG.debug("装载" + poiRule.getType() + ":" + poiRule.getValue());
+            List<Object> keyValue = map.get(poiRule.getValue());
+            if (keyValue != null && keyValue.size() == 1) {
+                Object param = keyValue.get(0);
+                HSSFCell tmpCell = makeNewCell(row, cellNum);
+                writeCell(tmpCell, param);
+            }
+        }
+        else if (RULE_DATE.equals(poiRule.getType())) {
+            LOG.debug("装载" + poiRule.getType() + ":" + poiRule.getValue());
+            String patten = poiRule.getValue();
+            DateFormatUtils format = new DateFormatUtils(patten);
+            HSSFCell tmpCell = makeNewCell(row, cellNum);
+            writeCell(tmpCell, format.format(new Date()));
+        }
+    }
+
+    private static List<PoiRules> paraseCellRules(String cellValues) {
+        List<PoiRules> ruleList = new ArrayList<PoiRules>();
+        StringBuilder sb = new StringBuilder();
+        // 解析${q:sec}-${b:time}-${c:seri}格式的字符串
+        if (UT.Str.isNotBlank(cellValues) && cellValues.length() > 3) {
+            for (int i = 0; i < cellValues.length() - 2; i++) {
+                char tmpChar = cellValues.charAt(i);
+                if (tmpChar == '$') {
+                    char leftChar = cellValues.charAt(++i);
+                    if (leftChar == '{') {
+                        char nextChar = cellValues.charAt(++i);
+                        while (nextChar != '}') {
+                            sb.append(nextChar);
+                            nextChar = cellValues.charAt(++i);
+                        }
+                        if (!sb.toString().isEmpty()) {
+                            String[] poi = UT.Split.split(sb.toString(), ":");
+                            if (poi.length < 2) {
+                                continue;
+                            }
+                            else if (poi.length > 2) {
+                                StringBuilder sbu = new StringBuilder();
+                                for (int k = 1; k < poi.length; k++) {
+                                    if (k != 1) {
+                                        sbu.append(':');
+                                    }
+                                    sbu.append(poi[k]);
+                                }
+                                poi[1] = sbu.toString();
+                            }
+                            PoiRules poiRule = new PoiRules();
+                            poiRule.setType(poi[0]);
+                            poiRule.setValue(poi[1]);
+                            ruleList.add(poiRule);
+                            sb = new StringBuilder();
+                        }
+                    }
+                }
+            }
+        }
+        return ruleList;
+    }
+
+    /**
+     * 生成新单元格
+     */
+    private static HSSFCell makeNewCell(HSSFRow row, int cellNum) {
+        HSSFCell newCell = row.getCell(cellNum);
+        HSSFCellStyle style = null;
+        if (newCell != null) {
+            style = newCell.getCellStyle(); // 保留单元格样式
+            row.removeCell(newCell);
+        }
+        newCell = row.createCell(cellNum);
+        if (style != null) {
+            newCell.setCellStyle(style);
+        }
+        return newCell;
+    }
+
+    /**
+     * 向单元格写入数据
+     */
+    private static void writeCell(HSSFCell cell, Object value) {
+        if (value instanceof CharSequence) {
+            cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+            cell.setCellValue((String) value);
+        }
+        else if (value instanceof Date) {
+            cell.setCellType(HSSFCell.CELL_TYPE_STRING);
+            cell.setCellValue(new DateFormatUtils(DateFormatUtils.yyyy_MM_dd).format((Date) value));
+        }
+        else if (value instanceof Number) {
+            cell.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+            Double doubleVal = Double.parseDouble(String.valueOf(value));
+            cell.setCellValue(doubleVal);
+        }
+        else if (value instanceof Boolean) {
+            cell.setCellType(HSSFCell.CELL_TYPE_BOOLEAN);
+            cell.setCellValue((Boolean) value);
+        }
+    }
+
+    /**
+     * 获取单元格数据
+     */
+    private static String getCellValues(HSSFCell cell) {
+        String value = "";
+        if (cell != null) {
+            int cellType = cell.getCellType();
+            switch (cellType) {
+            case HSSFCell.CELL_TYPE_STRING:
+                value = cell.getStringCellValue();
+                break;
+            case HSSFCell.CELL_TYPE_FORMULA:
+            case HSSFCell.CELL_TYPE_NUMERIC:
+                value = String.valueOf(cell.getNumericCellValue());
+                break;
+            case HSSFCell.CELL_TYPE_ERROR:
+            case HSSFCell.CELL_TYPE_BLANK:
+                break;
+            case HSSFCell.CELL_TYPE_BOOLEAN:
+                value = cell.getBooleanCellValue()?"Y":"N";
+                break;
+            default:
+                break;
+            }
+        }
+        return value;
+    }
+
+    static class PoiRules {
+        private String type;
+        private String value;
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+    }
+    
+
+}

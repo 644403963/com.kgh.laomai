@@ -1,0 +1,48 @@
+public void exportEmergencyPlanDetailList(HttpServletResponse response,
+			HttpServletRequest request, EmergencyPlanDetailVo para) {
+		Map<String, Map<String, List<Object>>> mapList = new HashMap<>();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		Resource templateFile = null;
+		String path = "";
+		Map<String, List<Object>> amMap = new HashMap<String, List<Object>>();
+		int amNumber = 0;
+		List<Object> adNumber = Lists.newArrayList();// 序号
+		List<Object> segment = Lists.newArrayList();// 处置环节
+		List<Object> step = Lists.newArrayList();// 实施步骤
+		List<Object> responsibleUser = Lists.newArrayList();// 责任人/工作组
+		List<Object> workContent = Lists.newArrayList();//工作内容
+		List<Object> condition = Lists.newArrayList();// 	时限或条件
+			List<EmergencyPlanDetailVo> voList = emergencyPlanDetailMapper
+					.queryEmergencyPlanDetailList(para);
+
+			for (EmergencyPlanDetailVo emptPerformanceVo : voList) {
+				segment.add(emptPerformanceVo.getSegmentDesc());
+				step.add(emptPerformanceVo.getStepDesc());
+				responsibleUser.add(emptPerformanceVo.getResponsibleUserDesc());
+				workContent.add(emptPerformanceVo.getWorkContent());
+				condition.add(emptPerformanceVo.getCondition());
+				amNumber++;
+				adNumber.add(amNumber);
+			}
+			
+			List<Object> nullValueList = Lists.newArrayList();
+			nullValueList.add("");
+		amMap.put("adNumber", adNumber.size()>0? adNumber:nullValueList);
+		amMap.put("segment", segment.size()>0? segment:nullValueList);
+		amMap.put("step", step.size()>0? step:nullValueList);
+		amMap.put("responsibleUser", responsibleUser.size()>0? responsibleUser:nullValueList);
+		amMap.put("workContent", workContent.size()>0? workContent:nullValueList);
+		amMap.put("condition", condition.size()>0? condition:nullValueList);
+		mapList.put("应急预案检查单", amMap);
+		templateFile = new PathMatchingResourcePatternResolver()
+				.getResource("classpath:excel-tpl/"
+						+ EXPORTEMERGENCYPLANDETAILLIST);
+		try {
+			ExcelExportUtils.buildMultiExcel(templateFile.getInputStream(),
+					mapList, out);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		ServletFileDownload.fileDownload(out.toInputStream(),
+				EXPORTEMERGENCYPLANDETAILLIST, "xls", request, response);
+	}

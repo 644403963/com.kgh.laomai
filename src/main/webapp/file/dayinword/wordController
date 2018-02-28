@@ -1,0 +1,27 @@
+
+		Map<String, Object> parameters = new HashMap<String, Object>();
+		// 查询该应急预案
+		EmergencyPlanVo emergencyPlanVo = emergencyPlanService
+				.selectByPrimaryKey(planId);
+		List<Codes> planTypes = codeService.getCodesByType("cn",
+				GlobalConstants.EMERGENCYPLAN_PLAN_TYPE);
+		// 获取其 值对应的 数据 字典数值
+		String planTypeDesc = "";
+		planTypeDesc = CodesUtils.getCodeDesc(planTypes,
+				emergencyPlanVo.getPlanType());
+		emergencyPlanVo.setPlanTypeDesc(planTypeDesc);
+		EmergencyPlanDetailVo para = new EmergencyPlanDetailVo();
+		para.setPlanId(planId);
+		List<EmergencyPlanDetailVo> emergencyPlanDetailVo = emergencyPlanDetailMapper
+				.queryEmergencyPlanDetailList(para);
+		parameters.put("emergencyPlanVo", emergencyPlanVo);// 基本信息
+		parameters.put("emergencyPlanDetailVo", emergencyPlanDetailVo);// 该应急预案检查单
+		// 打印模板名
+		String printFormatFile = "emergencyPlanPrint.ftl";
+		if (UT.Str.isNotBlank(printFormatFile)) {
+			// 创建doc文件
+			DocumentHandlerUtil documentHandlerUtil = new DocumentHandlerUtil();
+			documentHandlerUtil.createDoc(request, response, parameters,
+					printFormatFile, "emptPerformanceVo");
+		}
+	

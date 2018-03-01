@@ -60,8 +60,8 @@ public class UploadServiceImpl implements UploadService{
 //	   insert(upload);
 	   
 	   logger.info("附件{}记录保存成功！", upload.toString());
-	   
-	   return upload.getTuId();
+	   return 123;
+//	   return upload.getTuId();
 	}
 	/**
 	 * 通过业务编号删除附件

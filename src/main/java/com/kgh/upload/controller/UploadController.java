@@ -10,11 +10,12 @@ package com.kgh.upload.controller;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -64,5 +65,14 @@ public Res uploadFile(
     long recordId = uploadService.procFileUpload(fileName, tupload, file.getInputStream());
     
     return Res.ok(recordId);
+}
+
+/**
+ * 根据业务ID，下载附件
+ */
+@GetMapping("download/{id}")
+public void downloadById(@PathVariable("id") Long id, HttpServletRequest request, HttpServletResponse response) {
+    String path="url";
+    ServletFileDownload.fileDownload("附件名", path, null, request, response);
 }
 }

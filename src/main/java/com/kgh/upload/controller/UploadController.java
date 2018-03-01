@@ -37,18 +37,20 @@ public class UploadController{
  */
 @RequestMapping("uploadFile")
 public Res uploadFile(
-        @RequestParam("file") MultipartFile file,
-        // 文件附件信息，组件自动添加
-        @RequestParam("name") String name, 
-        @RequestParam("type") String type,
-        @RequestParam("size") long size,
-        HttpServletRequest request,
-        // ---------- 业务参数
-        // 业务类型
-        @RequestParam String tuType) throws IOException {
-    
+       MultipartFile file
+//        // 文件附件信息，组件自动添加
+//        @RequestParam("name") String name, 
+//        @RequestParam("type") String type,
+//        @RequestParam("size") long size,
+//        HttpServletRequest request,
+//        // ---------- 业务参数
+//        // 业务类型
+//        @RequestParam String tuType
+        ) throws IOException {
+		String fileName = file.getOriginalFilename();
+		Long size = file.getSize();
     //文件格式校验
-    String fileLastfix = name.substring(name.lastIndexOf(".") + 1);
+    String fileLastfix = fileName.substring(fileName.lastIndexOf(".") + 1);
     if(INVALIDFILETYPE.indexOf(fileLastfix.toLowerCase()) > -1){
     	throw new IOException("不能上传可执行文件，请重新选择");
     }
@@ -57,9 +59,9 @@ public Res uploadFile(
     	throw new IOException("文件大小不能超过50M");
     }
     Upload tupload = new Upload();
-    tupload.setTuType(tuType);
+//    tupload.setTuType(tuType);
     tupload.setTuIndex("0");// tab顺序
-    long recordId = uploadService.procFileUpload(name, tupload, file.getInputStream());
+    long recordId = uploadService.procFileUpload(fileName, tupload, file.getInputStream());
     
     return Res.ok(recordId);
 }

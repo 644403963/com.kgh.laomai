@@ -29,11 +29,11 @@ new Vue({
 					return;
 				}
 				$.ajax({
-					url : 'login',
+					url : '../user/userLogIn',
 					type : 'post',
 					data : {
-						name : name,
-						password : password
+						kUserName : name,
+						kPassword : password
 					},
 					success : function(data) {
 						var result = data.result;

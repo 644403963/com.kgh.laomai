@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.kgh.upload.entity.UT;
 import com.kgh.upload.entity.Upload;
 import com.kgh.upload.service.impl.UploadService;
 
@@ -48,7 +49,8 @@ public class UploadServiceImpl implements UploadService{
 
 	   // 写入文件流
 	   FileOutputStream out = new FileOutputStream(saveFile);
-	   out.close();
+	   UT.IO.clone(in, out);
+//	   out.close();
 	   
 	   logger.info("附件{}文件保存成功！", saveFile.getAbsolutePath());
 

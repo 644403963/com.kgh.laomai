@@ -72,7 +72,8 @@ public Res uploadFile(
  */
 @GetMapping("download/{id}")
 public void downloadById(@PathVariable("id") Long id, HttpServletRequest request, HttpServletResponse response) {
-    String path="url";
-    ServletFileDownload.fileDownload("附件名", path, null, request, response);
+    String path="C:/Users/Administrator/git/com.kgh.laomai/src/main/webapp/attachment/#_柯广华住宿3.jpg";
+    ServletFileDownload.fileDownload("柯广华住宿3.jpg", path, null, request, response);
 }
+
 }

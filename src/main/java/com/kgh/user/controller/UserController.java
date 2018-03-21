@@ -32,5 +32,10 @@ public class UserController{
 		//true 登录成功   false 失败 返回原因。
 		return isLog;
 	}
-	
+	@RequestMapping("youxi")
+	public boolean youXi(User user){
+		boolean isLog = userService.youXi(user);
+		//true 登录成功   false 失败 返回原因。
+		return isLog;
+	}
 }

@@ -115,7 +115,7 @@ public class ServletFileDownload {
         if (fileFullPath.equals("")) {
             throw new IllegalArgumentException("The file path is null or empty! fileFullPath=" + fileFullPath);
         }
-        if (contentType.equals("")) {
+        if (contentType==null||contentType.equals("")) {
             contentType = getFilenameExtension(fileFullPath);
             contentType = MIME.get(contentType);
             if (contentType == null) {

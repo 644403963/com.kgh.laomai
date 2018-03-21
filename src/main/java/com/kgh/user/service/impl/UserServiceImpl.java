@@ -42,5 +42,16 @@ public class UserServiceImpl implements UserService{
 		
 		return returnUser;
 	}
+	@Override
+	public boolean youXi(User user) {
+		// TODO Auto-generated method stub
+		User e =userMapper.getUser();
+		if(user.getkUserName().equals(e.getkUserName())){
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
 	
 }

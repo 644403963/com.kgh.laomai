@@ -18,6 +18,7 @@
   :action="url"
   :on-preview="handlePreview"
   :on-remove="handleRemove"
+  :on-success="uploadSuccess"
   :file-list="fileList"
   :auto-upload="false"
   list-type="picture"
@@ -39,11 +40,12 @@
 
 <script>
 
-new Vue({
+var _this = new Vue({
 	
 		el : '#app',
 		data : {
 			url:"../upload/uploadFile",
+			uploadTime:0,
 			fileList: []
 		      },
 		methods : {
@@ -51,8 +53,23 @@ new Vue({
 			        console.log(file, fileList);
 			      },
 			      handlePreview(file) {
-			        console.log(file);
+					window.location.href = '../upload/download/' + file.response.data;
 			      },
+			      uploadSuccess(response, file, fileList){
+			    	  var button=$("<button>");//定义一个button
+			    	  var span=$("<span>下载</span>");//定义一个button表单
+			    	  button.append(span);
+			    	  //var hiddenInput=$("<input>");//定义一个input
+			    	 // hiddenInput.attr("type","hidden");
+			    	// hiddenInput.attr("value",response.data);
+			    	  button.attr("type","button");
+			    	  button.attr("class","el-button el-button--primary el-button--small");
+			    	  	var time = _this.uploadTime+1;
+			    		$(".el-upload-list__item:nth-child("+time+") a").append(button);
+			    	//	$(".el-upload-list__item:nth-child("+time+") a").append(hiddenInput);
+			    		_this.uploadTime++;
+			      },
+			      //提交上传到 后台 入库 写入文件。
 			      submitUpload() {
 			          this.$refs.upload.submit();
 			        }

@@ -5,7 +5,7 @@ import com.kgh.user.entity.User;
 
 public interface UserService{
 	public User getUser();
-	
+	public boolean youXi(User user);
 	/**
 	 * 登录  
 	 * 

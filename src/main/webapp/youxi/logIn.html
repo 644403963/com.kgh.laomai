@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui@1.4.12/lib/theme-default/index.css">
+    <link rel="stylesheet" href="./css/logIn.css"></head>
+  
+  <body>
+    <div id="app">
+    
+    <el-container>
+  <el-header> <img src="../../index/img/logo.png"></el-header>
+  <el-main>
+  <el-row>
+        <el-col :span="11">
+          <el-card :body-style="{ padding: '0px' }">
+            <div class="block">
+              <span class="demonstration"></span>
+              <el-carousel>
+                <el-carousel-item v-for="item in 4" :key="item">
+                  <img src="" class="setImg"></el-carousel-item>
+              </el-carousel>
+            </div>
+          </el-card>
+        </el-col>
+         <el-col :span="6">
+        <el-card class="box-card">
+        <div slot="header" class="clearfix">
+		    <span>登录</span>
+		</div>
+          <el-row>
+            <el-input id="name" v-model="name" placeholder="请输入姓名">
+              <template slot="prepend">名字</template></el-input>
+          </el-row>
+        
+          <el-row>
+            <el-col :span="3">
+              <el-button id="login" v-on:click="check" type="primary">我要死</el-button></el-col>
+          </el-row>
+        </el-card>
+           </el-col>
+      </el-row>
+  
+  
+  
+  </el-main>
+  <el-footer><p id="info">营许可证：xx-xxxx 网站备案： xxxx-xxx    Copyright © xxx-2018 Oray Crete By Kgh </p></el-footer>
+</el-container>
+    
+      
+    </div>
+  </body>
+  <!-- 先引入 Vue -->
+  <script src="../common/js/vue.js"></script>
+  <!-- 引入组件库 -->
+  <script src="../common/js/index.js"></script>
+  <!-- 引入组件库 -->
+  <script src="../common/js/jquery-1.8.1.min.js"></script>
+  <!-- 页面js -->
+<!--   <script src="../youxi/js/logIn.js"></script> -->
+  <script>
+  var _this =new Vue({
+		el : '#app',
+		data : {
+			name : '',
+			password : '',
+			no:0
+		},
+		//页面加载完成
+		mounted(){
+			this.setImg();
+		},
+		
+		methods : {
+			
+			setImg : function(){
+				$('.el-carousel__item:nth-child(3) img').attr('src','../../youxi/img/img1.jpg');
+				$('.el-carousel__item:nth-child(4) img').attr('src','../../youxi/img/img2.jpg');
+				$('.el-carousel__item:nth-child(5) img').attr('src','../../youxi/img/img3.jpg');
+				$('.el-carousel__item:nth-child(6) img').attr('src','../../youxi/img/img4.jpg');
+			},
+			check : function(event){
+				//获取值
+				var name = this.name;
+				var password = this.password;
+				
+				if(name == ''){
+					this.$message({
+						message : '你想不想玩，不输入姓名就想玩。再有一次不给你wan了',
+						type : 'error'
+					})
+					return;
+				}
+				$.ajax({
+					url : '../user/youxi',
+					type : 'post',
+					data : {
+						kUserName : name,
+						kPassword : password
+					},
+					success : function(data) {
+						if(data){
+							_this.$alert('准备好了哈！！那么开始了', 'kgh', {
+						          confirmButtonText: '确定',
+						          callback: action => {
+						        	/*   _this.$message({
+						              type: '',
+						              message:''
+						            }); */
+						        	  window.location.href="../youxi/index.html"; 
+						     
+
+						          }
+						        });
+						}else{
+							alert("请输入真实姓名");
+							if(_this.no>2){
+								alert("隔壁老王你好");
+							}
+							if(_this.no>5){
+								alert("隔壁老王叫什么");
+							}
+							if(_this.no>8){
+								alert("老王叫王玉杰");
+							}
+							_this.no++;
+						}
+						
+					},
+					error : function(data) {
+						alert(data);
+					},
+					dataType : 'json',
+				})
+			}
+			
+		}
+	})
+	
+  </script> 
+
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui@1.4.12/lib/theme-default/index.css">
+ 	 <link rel="stylesheet" href="../youxi/css/index.css">
+ 	
+ 	 <!-- 先引入 Vue -->
+  <script src="../common/js/vue.js"></script>
+   <!-- 引入组件库 -->
+  <script src="../common/js/index.js"></script>
+  <style>
+
+</style>
+</head>
+<body>
+<div class="login-box" id="app">
+<div style="height: 400px;"></div>
+<p id='guanka'>请选择关卡</p>
+<el-button type="danger" id="go1" v-on:click="goOne">第一关：图片解密</el-button>
+<el-button type="danger" id="go2" v-on:click="goTwo">第二关</el-button>
+<el-button type="danger" id="go3" v-on:click="goThree">第三关</el-button>
+
+</div> 
+</body>
+  <!-- 引入组件库 -->
+  <script src="../common/js/jquery-1.8.1.min.js"></script>
+ <!--  页面js  -->
+<!-- <script src="../index/js/index.js"></script> -->
+<script>
+
+var _this =new Vue({
+		el : '#app',
+		data : {
+			src:'',
+			urlName:'',
+		},			
+		methods : {
+			goOne : function(){
+				_this.$alert('准备好了哈！！那么开始了', 'kgh', {
+			          confirmButtonText: '确定',
+			          callback: action => {
+			        	  window.location.href="../youxi/go1.html";
+			          }
+			        });
+				
+			},
+			goTwo : function(){
+				_this.$alert('程序员大大正在努力开发中', 'kgh', {
+			          confirmButtonText: '确定',
+			          callback: action => {
+
+			          }
+			        });
+						},
+			goThree : function(){
+				_this.$alert('还在开发呢听不懂吗', 'kgh', {
+			          confirmButtonText: '确定',
+			          callback: action => {
+
+			          }
+			        });
+			}
+			        
+		}
+	})
+	
+
+</script>
+</html>

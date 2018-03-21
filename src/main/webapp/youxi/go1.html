@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui@1.4.12/lib/theme-default/index.css">
+ 	 <link rel="stylesheet" href="../youxi/css/index.css">
+ 	
+ 	 <!-- 先引入 Vue -->
+  <script src="../common/js/vue.js"></script>
+   <!-- 引入组件库 -->
+  <script src="../common/js/index.js"></script>
+  <style>
+
+</style>
+</head>
+<body>
+<div class="login-box" id="app">
+<div style="height: 400px;"><img src="../../youxi/img/1.jpg"></div>
+<el-button type="danger" id="go1" v-on:click="goOne">开始</el-button>
+
+</div> 
+</body>
+  <!-- 引入组件库 -->
+  <script src="../common/js/jquery-1.8.1.min.js"></script>
+ <!--  页面js  -->
+<!-- <script src="../index/js/index.js"></script> -->
+<script>
+
+var _this =new Vue({
+		el : '#app',
+		data : {
+			src:'',
+			urlName:'',
+		},			
+		methods : {
+			goOne : function(){
+				_this.$alert('在一个寒冷的夜晚，有一个男的给一个女的发了一张照片。让她别睡。深夜的时候有秘密，然后这个女的因为某些原因就信了。恩没错就信了。', 'kgh', {
+			          confirmButtonText: '确定',
+			          callback: action => {
+				
+			        	  
+			        	  _this.$alert('他们两个预定了时间，在十一点五十的时候打开。女孩呢。很听话，就傻傻的等着时间的到来。慢慢的慢慢的。时间到了。', 'kgh', {
+					          confirmButtonText: '确定',
+					          callback: action => {
+									
+					        	  
+					        	  _this.$alert('图片的秘密也慢慢的慢慢的正在解开。', 'kgh', {
+							          confirmButtonText: '确定',
+							          callback: action => {
+											
+							        	  _this.$alert('你确定继续吗。接下将解开图片的秘密（系统提示：要是害怕请把声音调到最大，否则静音更恐怖。）', 'kgh', {
+									          confirmButtonText: '确定',
+									          callback: action => {
+													alert('晚安。故事讲完了。请点完再睡。谢谢');
+									        	  for(x=0;x<520;x++){
+									        		  alert('王玉杰我是你爸爸，你被骗了，哈哈哈！你要敢不点完或者禁止。你就狗');
+									        	  }
+									          }
+									        });
+							        	  
+							          }
+							        });
+					        	  
+					        	  
+					          }
+					        });
+			        	  
+			        	  
+			        	  
+			        	  
+			        	  
+			          }
+			        });
+				
+				
+			}
+	
+		
+			        
+		}
+	})
+	
+
+</script>
+</html>

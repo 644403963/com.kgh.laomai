@@ -1,0 +1,41 @@
+#forgetPassWord{
+	font-size: small;
+	float:right;
+	margin-right: 28px;
+	color: #2685e3;
+}
+.el-card__header {
+    padding: 16px 20px;
+    border-bottom: 1px solid #d1dbe5;
+    box-sizing: border-box;
+}
+#info{
+	font-size: 12px;
+    line-height: 18px;
+    margin-top: 5px;
+    color: #999;
+}
+.setImg{
+	 width: 100%;
+   inline-block;
+}
+#login-box{
+	float:left;
+}
+.el-carousel-item{
+	
+}
+.el-row {
+    margin-bottom: 20px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+#reg{
+	   margin-left: 127px;
+}
+#login{
+	      margin-left: 81px;
+	    
+}
+html,body,#app {height: 100%;}

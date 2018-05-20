@@ -17,6 +17,10 @@ new Vue({
 				$('.el-carousel__item:nth-child(5) img').attr('src','../../index/img/img3.jpg');
 				$('.el-carousel__item:nth-child(6) img').attr('src','../../index/img/img4.jpg');
 			},
+
+			turnReg : function(){
+				window.location.href='./reg.html';  
+			},
 			check : function(event){
 				//获取值
 				var name = this.name;
@@ -32,13 +36,13 @@ new Vue({
 					url : '../user/userLogIn',
 					type : 'post',
 					data : {
-						kUserName : name,
-						kPassword : password
+						userName : name,
+						passWord : password
 					},
 					success : function(data) {
-						var result = data.result;
-						if(result == 'true' || result == true){
+						if(data == 'true' || data == true){
 							alert("登录成功");
+							window.location.href='../musicIndex/index.html';  
 						}else {
 							alert("登录失败");
 						}

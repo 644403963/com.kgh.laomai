@@ -13,7 +13,7 @@ import com.kgh.test.mapper.Test2Mapper;
 import com.kgh.test.mapper.TestMapper;
 
 @RestController
-@RequestMapping("test")
+@RequestMapping("/test")
 public class TestController{
 	@Autowired
 	TestMapper dao;
@@ -26,7 +26,7 @@ public class TestController{
 		Test t = dao.getTest();
 		System.out.println(t.getId()+t.getTestName());
 	}
-	@RequestMapping("insertTest")
+	@RequestMapping("/insertTest")
 	public void inserTest(){
 		Test t = new Test();
 		t.setTestName("keguanghua");
@@ -36,7 +36,7 @@ public class TestController{
 		System.out.println(t2.getTestName());
 	}
 	
-	@RequestMapping("insertLongTest")
+	@RequestMapping("/insertLongTest")
 	public void insertLongTest(){
 		TestLongId t3 = new TestLongId();
 		t3.setTestName("t3");
@@ -44,7 +44,7 @@ public class TestController{
 		System.out.println(t3.getTestName());
 	}
 	//必须加主键 根据主键进行。
-	@RequestMapping("updateTest")
+	@RequestMapping("/updateTest")
 	public void updateTest(){
 		Test t = new Test();
 		t.setId("1");

@@ -35,84 +35,71 @@ public class User implements Serializable{
 	/**
 	 * 用户名
 	 */
-	@Column(name = "K_USER_NAME")
-	@ColumnType(column="K_USER_NAME",jdbcType=JdbcType.VARCHAR)
-	private String kUserName;
+	@Column(name = "USER_NAME")
+	@ColumnType(column="USER_NAME",jdbcType=JdbcType.VARCHAR)
+	private String userName;
 	/**
 	 * 密码
 	 */
-	@Column(name = "K_PASSWORD")
-	@ColumnType(column="K_PASSWORD",jdbcType=JdbcType.VARCHAR)
-	private String kPassword;
+	@Column(name = "PASSWORD")
+	@ColumnType(column="PASSWORD",jdbcType=JdbcType.VARCHAR)
+	private String passWord;
 	
 	/**
 	 * 性别
 	 */
-	@Column(name = "K_SEX")
-	@ColumnType(column="K_SEX",jdbcType=JdbcType.NUMERIC)
-	private String kSex;
+	@Column(name = "SEX")
+	@ColumnType(column="SEX",jdbcType=JdbcType.NUMERIC)
+	private Long sex;
 	/**
 	 * 电话号码
 	 */
 	
-	@Column(name = "K_PHONE_NUMBER")
-	@ColumnType(column="K_PHONE_NUMBER",jdbcType=JdbcType.VARCHAR)
-	private String kPhoneNumber;
+	@Column(name = "PHONE_NUMBER")
+	@ColumnType(column="PHONE_NUMBER",jdbcType=JdbcType.NUMERIC)
+	private Long phoneNumber;
 	/**
 	 * 昵称
 	 */
-	@Column(name = "K_NICK_NAME")
-	@ColumnType(column="K_NICK_NAME",jdbcType=JdbcType.VARCHAR)
-	private String kNickName;
-
+	@Column(name = "NICK_NAME")
+	@ColumnType(column="NICK_NAME",jdbcType=JdbcType.VARCHAR)
+	private String nickName;
 	public String getId() {
 		return id;
 	}
-
 	public void setId(String id) {
 		this.id = id;
 	}
-
-	public String getkUserName() {
-		return kUserName;
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getPassWord() {
+		return passWord;
+	}
+	public void setPassWord(String passWord) {
+		this.passWord = passWord;
 	}
 
-	public void setkUserName(String kUserName) {
-		this.kUserName = kUserName;
+	public Long getSex() {
+		return sex;
 	}
-
-	public String getkPassword() {
-		return kPassword;
+	public void setSex(Long sex) {
+		this.sex = sex;
 	}
-
-	public void setkPassword(String kPassword) {
-		this.kPassword = kPassword;
+	public Long getPhoneNumber() {
+		return phoneNumber;
 	}
-
-	public String getkSex() {
-		return kSex;
+	public void setPhoneNumber(Long phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
-
-	public void setkSex(String kSex) {
-		this.kSex = kSex;
+	public String getNickName() {
+		return nickName;
 	}
-
-	public String getkPhoneNumber() {
-		return kPhoneNumber;
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
-
-	public void setkPhoneNumber(String kPhoneNumber) {
-		this.kPhoneNumber = kPhoneNumber;
-	}
-
-	public String getkNickName() {
-		return kNickName;
-	}
-
-	public void setkNickName(String kNickName) {
-		this.kNickName = kNickName;
-	}
-	
-	
 	
 }

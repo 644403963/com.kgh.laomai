@@ -23,7 +23,7 @@ import com.kgh.common.entity.Res;
 import com.kgh.upload.entity.Upload;
 import com.kgh.upload.service.impl.UploadService;
 @RestController
-@RequestMapping("upload")
+@RequestMapping("/upload")
 public class UploadController{
 	
 	 public static final long MAXFILESIZE = 50 * 1024 * 1024;//最大限制 50M
@@ -36,7 +36,7 @@ public class UploadController{
 /**
  * 附件上传demo，可通用，如果需要特殊处理，则自己写controller，调用service即可
  */
-@RequestMapping("uploadFile")
+@RequestMapping("/uploadFile")
 public Res uploadFile(
        MultipartFile file
 //        // 文件附件信息，组件自动添加
@@ -60,17 +60,15 @@ public Res uploadFile(
     	throw new IOException("文件大小不能超过50M");
     }
     Upload tupload = new Upload();
-//    tupload.setTuType(tuType);
-    tupload.setTuIndex("0");// tab顺序
-    long recordId = uploadService.procFileUpload(fileName, tupload, file.getInputStream());
+     uploadService.procFileUpload(fileName, tupload, file.getInputStream());
     
-    return Res.ok(recordId);
+    return Res.ok();
 }
 
 /**
  * 根据业务ID，下载附件
  */
-@GetMapping("download/{id}")
+@GetMapping("/download/{id}")
 public void downloadById(@PathVariable("id") Long id, HttpServletRequest request, HttpServletResponse response) {
     String path="C:/Users/Administrator/git/com.kgh.laomai/src/main/webapp/attachment/#_柯广华住宿3.jpg";
     ServletFileDownload.fileDownload("柯广华住宿3.jpg", path, null, request, response);

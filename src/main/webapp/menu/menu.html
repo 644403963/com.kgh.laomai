@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui@1.4.12/lib/theme-default/index.css">
+  
+  <body>
+    <div id="app">
+    
+<el-container>
+
+
+<el-form ref="form" :model="form" label-width="80px">
+  <el-col :span="6">
+		<el-form-item label="菜单名称">
+		    <el-input v-model="name"></el-input>
+		  </el-form-item>
+  </el-col>
+  <el-col :span="6">
+		  <el-form-item label="创建人">
+		    <el-input v-model="name"></el-input>
+		  </el-form-item>
+	</el-col>
+	<el-col :span="2" style="margin-left: 28px;">
+		 <el-button  type="primary">查询</el-button></el-col>
+	</el-col>
+	<el-col :span="6">
+		 <el-button  type="primary">新增菜单</el-button></el-col>
+	</el-col>
+</el-form>
+
+<div>
+<template>
+  <el-table
+    :data="tableData"
+    border
+    style="width: 100%"
+    :default-sort = "{prop: 'date', order: 'descending'}"
+    >
+    <el-table-column
+      prop="date"
+      label="菜单名称"
+      width="180">
+    </el-table-column>
+    <el-table-column
+      prop="name"
+      label="创建人"
+      width="180">
+    </el-table-column>
+    <el-table-column
+      prop="address"
+      label="创建时间"
+      :formatter="formatter">
+    </el-table-column>
+    <el-table-column
+      prop="address"
+      label="操作"
+      :formatter="formatter">
+    </el-table-column>
+  </el-table>
+  <el-pagination
+  small
+  layout="prev, pager, next"
+  :total="50" style="text-align: center;     margin-top: 18px;">
+</el-pagination>
+ </template>
+ </div>
+</el-container>
+    
+      
+    </div>
+  </body>
+  <!-- 先引入 Vue -->
+  <script src="../common/js/vue.js"></script>
+  <!-- 引入组件库 -->
+  <script src="../common/js/index.js"></script>
+  <!-- 引入组件库 -->
+  <script src="../common/js/jquery-1.8.1.min.js"></script>
+  <!-- 页面js -->
+  <script src="../upload/js/uploadMain.js"></script>
+  
+</html>

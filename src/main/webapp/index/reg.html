@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui@1.4.12/lib/theme-default/index.css">
+  
+  <body>
+    <div id="app">
+    
+    <el-container>
+  <el-header> <img src="../../index/img/logo.png"></el-header>
+  <el-main>
+ 
+  <el-form ref="form" :model="form" label-width="80px" :rules="rules">
+  <el-col :span="8">
+  <el-form-item label="用户名" prop="userName">
+    <el-input v-model="form.userName" @blur="checkUserName()" ></el-input>
+    <span id="checkUserName" ></span>
+  </el-form-item>
+  <el-form-item label="密码" prop="passWord">
+    <el-input type="password" v-model="form.passWord" @blur="checkPassWord()"></el-input>
+  </el-form-item>
+  <el-form-item label="确认密码" prop="passWordTwo">
+    <el-input type="password" v-model="form.passWordTwo" @blur="checkPassWord()" ></el-input>
+    <span id="checkPassWord" ></span>
+  </el-form-item>
+   <el-form-item label="昵称" prop="nickName">
+    <el-input v-model="form.nickName"></el-input>
+  </el-form-item>
+  <el-form-item label="性别" prop="sex">
+    <el-select v-model="form.sex" placeholder="请选择性别">
+      <el-option label="男" value="0"></el-option>
+      <el-option label="女" value="1"></el-option>
+    </el-select>
+  </el-form-item>
+  <el-form-item label="电话" prop="phoneNumber">
+    <el-input v-model="form.phoneNumber"  placeholder="填写数字"></el-input>
+  </el-form-item>
+  <el-form-item>
+    <el-button type="primary" @click="reg('form')">立即注册</el-button>
+    <el-button>取消</el-button>
+  </el-form-item>
+  </el-col>
+</el-form>
+  
+  </el-main>
+  <el-footer></el-footer>
+</el-container>
+    
+      
+    </div>
+  </body>
+  <!-- 先引入 Vue -->
+  <script src="../common/js/vue.js"></script>
+  <!-- 引入组件库 -->
+  <script src="../common/js/index.js"></script>
+  <!-- 引入组件库 -->
+  <script src="../common/js/jquery-1.8.1.min.js"></script>
+  <!-- 页面js -->
+  <script src="../index/js/reg.js"></script>
+  
+</html>

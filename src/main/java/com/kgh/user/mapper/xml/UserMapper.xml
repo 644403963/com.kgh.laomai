@@ -4,4 +4,10 @@
     <select id="getUser"  resultType="com.kgh.user.entity.User">
         SELECT USER_NAME kUserName FROM t_user 
     </select>
+    
+    <insert id="insertUser" parameterType="com.kgh.user.entity.User">
+    INSERT INTO K_USER (id) values ('2')
+   
+    
+    </insert>
 </mapper>

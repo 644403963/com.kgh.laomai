@@ -14,6 +14,6 @@ import com.kgh.upload.entity.Upload;
 
 public interface UploadService{
 	
-	public long procFileUpload(String name, Upload upload, InputStream in) throws IOException;
+	public void procFileUpload(String name, Upload upload, InputStream in) throws IOException;
 	
 }

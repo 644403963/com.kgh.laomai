@@ -9,4 +9,5 @@ import com.kgh.user.entity.User;
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
 	public User getUser();
+	public void insertUser(User user);
 }

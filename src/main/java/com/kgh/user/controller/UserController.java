@@ -1,6 +1,14 @@
 
 package com.kgh.user.controller;
 
+import groovy.util.logging.Log;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,10 +35,34 @@ public class UserController{
 	 */
 	
 	@RequestMapping("userLogIn")
-	public boolean userLogIn(User user){
-		boolean isLog = userService.userLogIn(user);
+	public boolean userLogIn(User user,ServletRequest request, ServletResponse response){
+		boolean isLog = userService.userLogIn(user,request,response);
 		//true 登录成功   false 失败 返回原因。
 		return isLog;
+	}
+	/**
+	 * 查重用户名
+	 */
+	@RequestMapping("checkUserName")
+	public boolean checkUserName(User user){
+		boolean isLog = userService.checkUserName(user);
+		//true 登录成功   false 失败 返回原因。
+		return isLog;
+	}
+	/**
+	 * 注册用户
+	 */
+	@RequestMapping("insertUser")
+	public Map<String,String> insertUser(User user){
+		Map<String,String> result =new HashMap<String, String>();
+		try {
+			userService.userReg(user);
+			result.put("result", "操作成功");
+		} catch (Exception e) {
+			// TODO: handle exception
+			result.put("result", "操作是不");
+		}
+		return result;
 	}
 	@RequestMapping("youxi")
 	public boolean youXi(User user){

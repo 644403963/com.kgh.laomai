@@ -1,6 +1,10 @@
 
 package com.kgh.user.service.impl;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +21,13 @@ public class UserServiceImpl implements UserService{
 		
 	}
 	@Override
-	public boolean userLogIn(User user) {
+	public boolean userLogIn(User user,ServletRequest req, ServletResponse res) {
+		HttpServletRequest request = (HttpServletRequest)req;
 		//查询用户密码 匹配的用户条数
 		int userCount =userMapper.selectCount(user);
 		if(userCount>0){
 			//用户密码正确
+			request.getSession().setAttribute("user",user);
 			return true;
 		}else{
 			return false;
@@ -29,29 +35,38 @@ public class UserServiceImpl implements UserService{
 	}
 	@Override
 	public User userReg(User user) {
-		//要返回的数据
-		User returnUser = new User();
-		returnUser.setkUserName(user.getkUserName());
-		returnUser.setkPassword(user.getkPassword());
 		//加密
 		try {
 			userMapper.insert(user);
+			return user;
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+		return null;
 		
-		return returnUser;
 	}
 	@Override
 	public boolean youXi(User user) {
 		// TODO Auto-generated method stub
 		User e =userMapper.getUser();
-		if(user.getkUserName().equals(e.getkUserName())){
+		if(user.getUserName().equals(e.getUserName())){
 			return true;
 		}else {
 			return false;
 		}
 		
+	}
+	@Override
+	public boolean checkUserName(User user) {
+		// TODO Auto-generated method stub
+		//查询用户匹配的用户条数
+				int userCount =userMapper.selectCount(user);
+				if(userCount>0){
+					//用户密码正确
+					return true;
+				}else{
+					return false;
+				}
 	}
 	
 }

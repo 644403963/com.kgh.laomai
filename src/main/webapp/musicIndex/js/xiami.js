@@ -47,9 +47,10 @@ $(function(){
 	$(".start em").click(function(){
 		/*开始放歌*/
 		var sid=$(this).attr("sonN");
-		alert(sid);
+		//获得隐藏文本框 值   也就是该歌曲的 id
+		var id = $("#"+sid).val();
 		songIndex=sid;
-		$("#audio").attr("src",'songs/'+sid+'.mp3');	
+		$("#audio").attr("src",'songs/'+id+'.mp3');	
 		audio=document.getElementById("audio");//获得音频元素
 		/*显示歌曲总长度*/
 		if(audio.paused){

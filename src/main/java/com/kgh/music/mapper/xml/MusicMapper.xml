@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kgh.music.mapper.MusicMapper" >
+    <select id="queryMusic"  resultType="com.kgh.music.entity.Music">
+        SELECT
+	music.ID id,
+  music.MUSIC_NAME musicName,
+	music.MUSIC_ALBUM musicAlbum,
+	music.MUSIC_ATTACHMENT_ID musicAttachmentId,
+	music.MUSIC_DOWNLOAD_TIMES  musicDownloadTimes,
+	music.MUSIC_TIMES musicTimes,
+	music.CREATE_BY createBy,
+	music.CREATE_TIME createTime,
+	music.SINGER singer,
+	upload.id uploadId,
+	upload.FILE_NAME fileName,
+	upload.FILE_PATH filePath
+FROM
+	K_MUSIC_INFO music
+LEFT JOIN K_UPLOAD upload
+ON upload.id = music.MUSIC_ATTACHMENT_ID
+    </select>
+    
+    
+    <select id="getUploadId"  resultType="String">
+	SELECT * from (select id from k_upload order by createdate desc ) WHERE ROWNUM=1
+    </select>
+    
+    
+    <select id="queryMusicInfo"  resultType="com.kgh.music.entity.Music" parameterType="com.kgh.music.entity.Music">
+    select * from (
+ 	select 
+ 	ROWNUM RN,
+ 	MUSIC_NAME musicName, 
+ 	MUSIC_ALBUM musicAlbum,
+ 	MUSIC_ATTACHMENT_ID musicAttachmentId,
+ 	MUSIC_DOWNLOAD_TIMES musicDownloadTimes,
+ 	MUSIC_TIMES musicTimes,
+ 	SINGER singer,
+ 	STATUS status,
+ 	REASON reason
+ 	from K_MUSIC_INFO 
+ 	<where>
+ 		STATUS = 0
+ 		<if test="createBy!=null and createBy!=''">
+ 			CREATE_BY=#{createBy}
+ 		</if>
+ 		and  ROWNUM &lt;= #{end}
+ 	</where>
+ 	order  by CREATE_TIME desc
+ 	)
+ 	
+ 	WHERE RN >=#{start}
+    </select>
+    
+       <select id="queryMusicPass"  resultType="com.kgh.music.entity.Music" parameterType="com.kgh.music.entity.Music">
+    select * from (
+ 	select 
+ 	ROWNUM RN,
+ 	MUSIC_NAME musicName, 
+ 	MUSIC_ALBUM musicAlbum,
+ 	MUSIC_ATTACHMENT_ID musicAttachmentId,
+ 	MUSIC_DOWNLOAD_TIMES musicDownloadTimes,
+ 	MUSIC_TIMES musicTimes,
+ 	SINGER singer,
+ 	STATUS status,
+ 	REASON reason
+ 	from K_MUSIC_INFO 
+ 	<where>
+ 		STATUS = 1
+ 		<if test="createBy!=null and createBy!=''">
+ 			CREATE_BY=#{createBy}
+ 		</if>
+ 		and  ROWNUM &lt;= #{end}
+ 	</where>
+ 	order  by CREATE_TIME desc
+ 	)
+ 	
+ 	WHERE RN >=#{start}
+    </select>
+    
+</mapper>
